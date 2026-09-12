@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF6B6B">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Rincón Infantil">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Mi App Infantil de Actividades</title>
+  <style>
+    /* ESTILOS GENERALES Y TEMÁTICA INFANTIL */
+    :root {
+      --primary: #FF6B6B;
+      --secondary: #4ECDC4;
+      --accent: #FFE66D;
+      --purple: #A29BFE;
+      --dark: #2F2E41;
+      --bg: #F7F9FC;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--dark);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* ENCABEZADO Y NAVEGACIÓN */
+    header {
+      background: linear-gradient(135deg, var(--primary), #FF8E8E);
+      width: 100%;
+      padding: 20px 10px;
+      text-align: center;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: white;
+      color: var(--dark);
+      border: 3px solid var(--secondary);
+      padding: 10px 18px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      background: var(--secondary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    main {
+      width: 100%;
+      max-width: 850px;
+      padding: 20px;
+      flex: 1;
+    }
+
+    .tab-content {
+      display: none;
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* BOTONES DE ACCIÓN */
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      filter: brightness(0.9);
+    }
+
+    .btn-print {
+      background: #6C5CE7;
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+    }
+
+    .btn-purple {
+      background: var(--purple);
+    }
+
+    /* CONTROLES GENERALES */
+    .controls-bar {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      background: #F0F4F8;
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    /* SECCIÓN 1: MATEMÁTICAS */
+    .math-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .math-card {
+      border: 2px dashed #CBD5E1;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: bold;
+      background: #FAF5FF;
+    }
+
+    .math-card.correct { background: #D1FAE5; border: 2px solid #10B981; border-style: solid; }
+    .math-card.wrong { background: #FEE2E2; border: 2px solid #EF4444; border-style: solid; }
+
+    .math-card input {
+      width: 70px;
+      font-size: 1.4rem;
+      text-align: center;
+      border: 2px solid var(--secondary);
+      border-radius: 8px;
+      padding: 5px;
+      margin-left: 10px;
+    }
+
+    /* SECCIÓN 2: SOPA DE LETRAS */
+    .wordsearch-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .ws-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 38px);
+      gap: 4px;
+      background: #E2E8F0;
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    .ws-cell {
+      width: 38px;
+      height: 38px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .ws-cell.selected {
+      background: var(--accent);
+      color: var(--dark);
+    }
+
+    .word-list {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #475569;
+    }
+
+    /* SECCIÓN 3: CRUCIGRAMA */
+    .crossword-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .cw-grid {
+      display: grid;
+      grid-template-columns: repeat(13, 34px);
+      gap: 3px;
+    }
+
+    .cw-cell {
+      width: 34px;
+      height: 34px;
+      background: white;
+      border: 2px solid var(--dark);
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .cw-cell.block {
+      background: #E2E8F0;
+      border-color: #CBD5E1;
+      pointer-events: none;
+    }
+
+    .cw-cell input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      text-align: center;
+      font-size: 1.05rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: var(--dark);
+      font-family: inherit;
+      padding: 0;
+    }
+
+    .cw-num {
+      position: absolute;
+      top: 0;
+      left: 3px;
+      font-size: 0.6rem;
+      font-weight: bold;
+      color: #64748B;
+      pointer-events: none;
+    }
+
+    .cw-clues {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: #F0F4F8;
+      padding: 15px 25px;
+      border-radius: 12px;
+    }
+
+    .cw-clues h4 { margin: 0 0 8px 0; color: var(--primary); }
+    .cw-clues ol { margin: 0; padding-left: 22px; font-weight: bold; color: #475569; line-height: 1.9; }
+
+    .cw-cell.correct { background: #D1FAE5; border-color: #10B981; }
+    .cw-cell.wrong { background: #FEE2E2; border-color: #EF4444; }
+
+    /* SECCIÓN 4: DIBUJO Y COLOREAR */
+    .canvas-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    #drawCanvas {
+      border: 3px solid var(--dark);
+      border-radius: 15px;
+      background: white;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .palette {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .color-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .color-dot.active {
+      transform: scale(1.2);
+      border-color: var(--dark);
+    }
+
+    /* SECCIÓN 4: GENERADOR DE CUENTOS */
+    .story-card {
+      background: #FFF9E6;
+      border: 2px solid #FFE066;
+      padding: 25px;
+      border-radius: 15px;
+      margin-top: 20px;
+      line-height: 1.8;
+      font-size: 1.2rem;
+      text-align: justify;
+    }
+
+    .story-title {
+      text-align: center;
+      color: #D97706;
+      margin-top: 0;
+      font-size: 1.8rem;
+    }
+
+    .story-draw-box {
+      display: none;
+      border: 2px dashed #94A3B8;
+      height: 220px;
+      margin-top: 25px;
+      border-radius: 12px;
+      text-align: center;
+      padding-top: 10px;
+      color: #64748B;
+      font-size: 1rem;
+    }
+
+    /* ------------------------------------------------------------- */
+    /* REGLAS ESPECIALES PARA IMPRESIÓN (PDF Y PAPEL) */
+    /* ------------------------------------------------------------- */
+    @media print {
+      header, nav, .btn, .controls-bar, .palette, .interactive-only {
+        display: none !important;
+      }
+
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+
+      .tab-content {
+        display: block !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+
+      .tab-content:not(.active) {
+        display: none !important;
+      }
+
+      .print-header {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #000;
+        padding-bottom: 10px;
+      }
+
+      .print-header h2 {
+        margin: 0;
+        font-size: 24pt;
+      }
+
+      .print-fields {
+        display: flex !important;
+        justify-content: space-between;
+        margin-top: 15px;
+        font-size: 12pt;
+      }
+
+      .math-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 25px !important;
+      }
+
+      .math-card {
+        border: 1px solid #000 !important;
+        background: white !important;
+        font-size: 20pt !important;
+      }
+
+      .math-card.correct { background: #D1FAE5; border: 2px solid #10B981; border-style: solid; }
+    .math-card.wrong { background: #FEE2E2; border: 2px solid #EF4444; border-style: solid; }
+
+    .math-card input {
+        display: none !important;
+      }
+
+      .math-card .answer-box {
+        display: inline-block !important;
+        width: 80px;
+        height: 35px;
+        border-bottom: 2px solid #000;
+        margin-left: 10px;
+      }
+
+      .ws-grid {
+        gap: 2px !important;
+        background: #000 !important;
+        border: 2px solid #000;
+      }
+
+      .ws-cell {
+        border-radius: 0 !important;
+        font-size: 16pt !important;
+        background: white !important;
+        color: black !important;
+      }
+
+      .cw-grid { gap: 2px !important; }
+
+      .cw-cell {
+        border: 1.5px solid #000 !important;
+        border-radius: 0 !important;
+        background: white !important;
+      }
+
+      .cw-cell.block { background: white !important; border: none !important; }
+
+      .cw-cell input { font-size: 12pt !important; }
+
+      .cw-clues {
+        background: white !important;
+        border: 1px solid #000;
+        margin-top: 15px;
+      }
+
+      .cw-clues h4 { color: black !important; }
+
+      #drawCanvas {
+        border: 2px solid #000 !important;
+      }
+
+      .story-card {
+        background: white !important;
+        border: none !important;
+        padding: 0 !important;
+        font-size: 14pt !important;
+      }
+
+      .story-title {
+        color: black !important;
+      }
+
+      .story-draw-box {
+        display: block !important;
+      }
+    }
+
+    .print-header { display: none; }
+    .answer-box { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>✏️ Rincón Infantil de Actividades 🎨</h1>
+    <nav>
+      <button class="nav-btn active" onclick="switchTab('math')">🧮 Sumas y Restas</button>
+      <button class="nav-btn" onclick="switchTab('wordsearch')">🔍 Sopa de Letras</button>
+      <button class="nav-btn" onclick="switchTab('crossword')">🧩 Crucigrama</button>
+      <button class="nav-btn" onclick="switchTab('drawing')">🎨 Dibujo y Colorear</button>
+      <button class="nav-btn" onclick="switchTab('story')">📖 Cuentos Mágicos</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ENCABEZADO EXCLUSIVO DE IMPRESIÓN -->
+    <div class="print-header">
+      <h2 id="printTitle">Ficha de Actividades</h2>
+      <div class="print-fields">
+        <span><b>Nombre:</b> ___________________________</span>
+        <span><b>Fecha:</b> ______________</span>
+      </div>
+    </div>
+
+    <!-- ==================== SECCIÓN 1: MATEMÁTICAS ==================== -->
+    <section id="math" class="tab-content active">
+      <div class="controls-bar">
+        <label><b>Operación:</b>
+          <select id="mathType" onchange="generateMath()">
+            <option value="add">Solo Sumas (+)</option>
+            <option value="sub">Solo Restas (-)</option>
+            <option value="mul">Solo Multiplicaciones (×)</option>
+            <option value="div">Solo Divisiones (÷)</option>
+            <option value="mixed">Mixtas (+, -, ×, ÷)</option>
+          </select>
+        </label>
+
+        <label><b>Dificultad:</b>
+          <select id="mathDiff" onchange="generateMath()">
+            <option value="10">Fácil (1 al 10)</option>
+            <option value="20">Medio (1 al 20)</option>
+            <option value="50">Avanzado (1 al 50)</option>
+          </select>
+        </label>
+
+        <button class="btn btn-secondary" onclick="generateMath()">🔄 Generar Nuevos</button>
+        <button class="btn" style="background:#10B981" onclick="checkMath()">✅ Revisar Respuestas</button>
+        <button class="btn btn-print" onclick="printPage('Ficha de Matemáticas')">🖨️ Imprimir Ficha</button>
+      </div>
+
+      <div class="math-grid" id="mathGrid"></div>
+    </section>
+
+    <!-- ==================== SECCIÓN 2: SOPA DE LETRAS ==================== -->
+    <section id="wordsearch" class="tab-content">
+      <div class="controls-bar">
+        <label><b>Categoría:</b>
+          <select id="wsCategory" onchange="generateWordSearch()">
+            <option value="animales">Animales 🐶</option>
+            <option value="frutas">Frutas 🍎</option>
+            <option value="colores">Colores 🎨</option>
+          </select>
+        </label>
+
+        <button class="btn btn-secondary" onclick="generateWordSearch()">🔄 Otra Sopa</button>
+        <button class="btn btn-print" onclick="printPage('Sopa de Letras Infantil')">🖨️ Imprimir Sopa</button>
+      </div>
+
+      <div class="wordsearch-container">
+        <div class="word-list" id="wordList"></div>
+        <div class="ws-grid" id="wsGrid"></div>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 3: CRUCIGRAMA ==================== -->
+    <section id="crossword" class="tab-content">
+      <div class="controls-bar">
+        <label><b>Categoría:</b>
+          <select id="cwCategory" onchange="generateCrossword()">
+            <option value="animales">Animales 🐶</option>
+            <option value="frutas">Frutas 🍎</option>
+            <option value="colores">Colores 🎨</option>
+          </select>
+        </label>
+
+        <button class="btn btn-secondary" onclick="generateCrossword()">🔄 Otro Crucigrama</button>
+        <button class="btn" style="background:#10B981" onclick="checkCrossword()">✅ Verificar</button>
+        <button class="btn btn-print" onclick="printPage('Crucigrama Infantil')">🖨️ Imprimir Crucigrama</button>
+      </div>
+
+      <div class="crossword-container">
+        <div class="cw-grid" id="cwGrid"></div>
+        <div class="cw-clues">
+          <div>
+            <h4>→ Horizontales</h4>
+            <ol id="cwAcross"></ol>
+          </div>
+          <div>
+            <h4>↓ Verticales</h4>
+            <ol id="cwDown"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 4: DIBUJO Y COLOREAR ==================== -->
+    <section id="drawing" class="tab-content">
+      <div class="controls-bar">
+        <div class="palette">
+          <span><b>Color:</b></span>
+          <div class="color-dot active" style="background: #000000" onclick="setColor('#000000', this)"></div>
+          <div class="color-dot" style="background: #FF4757" onclick="setColor('#FF4757', this)"></div>
+          <div class="color-dot" style="background: #2ED573" onclick="setColor('#2ED573', this)"></div>
+          <div class="color-dot" style="background: #1E90FF" onclick="setColor('#1E90FF', this)"></div>
+          <div class="color-dot" style="background: #FFA500" onclick="setColor('#FFA500', this)"></div>
+          <div class="color-dot" style="background: #9B59B6" onclick="setColor('#9B59B6', this)"></div>
+        </div>
+
+        <label><b>Plantilla de guía:</b>
+          <select id="templateSelect" onchange="loadTemplate()">
+            <option value="none">Lienzo en Blanco</option>
+            <option value="house">Casa Sencilla</option>
+            <option value="sun">Sol y Nubes</option>
+          </select>
+        </label>
+
+        <button class="btn btn-secondary" onclick="clearCanvas()">🗑️ Limpiar</button>
+        <button class="btn btn-print" onclick="printPage('Mi Dibujo')">🖨️ Imprimir Dibujo</button>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="drawCanvas" width="600" height="400"></canvas>
+      </div>
+    </section>
+
+    <!-- ==================== SECCIÓN 4: GENERADOR DE CUENTOS ==================== -->
+    <section id="story" class="tab-content">
+      <div class="controls-bar">
+        <label><b>Personaje:</b>
+          <select id="storyHero">
+            <option value="un conejito muy curioso">Conejito 🐰</option>
+            <option value="un pequeño dragón amigable">Dragón 🐲</option>
+            <option value="una perrita aventurera">Perrita 🐶</option>
+            <option value="un robot brillante">Robot 🤖</option>
+          </select>
+        </label>
+
+        <label><b>Lugar:</b>
+          <select id="storyPlace">
+            <option value="un bosque de árboles gigantes">El Bosque 🌲</option>
+            <option value="un castillo hecho de golosinas">Castillo Mágico 🏰</option>
+            <option value="una isla lejana en el océano">Isla del Tesoro 🏝️</option>
+            <option value="una estación espacial en las estrellas">El Espacio 🚀</option>
+          </select>
+        </label>
+
+        <label><b>Poder especial:</b>
+          <select id="storyPower">
+            <option value="volar tan alto como las nubes">Volar ☁️</option>
+            <option value="hablar con todos los animales">Hablar con animales 🗣️</option>
+            <option value="hacer aparecer juguetes con la mente">Crear cosas ✨</option>
+          </select>
+        </label>
+
+        <button class="btn btn-purple" onclick="generateStory()">✨ Crear Cuento</button>
+        <button class="btn btn-print" onclick="printPage('Mi Cuento Mágico')">🖨️ Imprimir Cuento</button>
+      </div>
+
+      <div class="story-card" id="storyOutput">
+        <h3 class="story-title">✨ Haz clic en "Crear Cuento" para inventar una historia ✨</h3>
+        <p style="text-align: center;">Elige tus opciones arriba y presiona el botón para comenzar la aventura.</p>
+      </div>
+
+      <!-- Recuadro para dibujar que solo se activa al imprimir -->
+      <div class="story-draw-box">
+        🎨 <b>Espacio para dibujar tu parte favorita del cuento</b>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // NAVEGACIÓN POR PESTAÑAS
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      if (tabId === 'drawing') initCanvas();
+    }
+
+    function printPage(title) {
+      document.getElementById('printTitle').innerText = title;
+      window.print();
+    }
+
+    // -------------------------------------------------------------
+    // LÓGICA 1: GENERADOR DE MATEMÁTICAS
+    // -------------------------------------------------------------
+    function generateMath() {
+      const grid = document.getElementById('mathGrid');
+      grid.innerHTML = '';
+      const type = document.getElementById('mathType').value;
+      const max = parseInt(document.getElementById('mathDiff').value);
+      const operations = { add: ['+'], sub: ['-'], mul: ['×'], div: ['÷'] };
+      const symbols = type === 'mixed' ? ['+', '-', '×', '÷'] : operations[type];
+
+      for (let i = 0; i < 8; i++) {
+        const opSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+        let n1 = Math.floor(Math.random() * max) + 1;
+        let n2 = Math.floor(Math.random() * max) + 1;
+
+        if (opSymbol === '-' && n1 < n2) [n1, n2] = [n2, n1];
+
+        if (opSymbol === '÷') {
+          // Divisiones exactas: se construyen desde una multiplicación
+          n2 = Math.floor(Math.random() * Math.min(max, 10)) + 1;
+          const quotient = Math.floor(Math.random() * Math.min(max, 10)) + 1;
+          n1 = n2 * quotient;
+        }
+
+        if (opSymbol === '×') {
+          // Factores acotados para que el resultado no sea enorme
+          n1 = Math.floor(Math.random() * Math.min(max, 10)) + 1;
+          n2 = Math.floor(Math.random() * Math.min(max, 10)) + 1;
+        }
+        let result;
+        if (opSymbol === '+') result = n1 + n2;
+        else if (opSymbol === '-') result = n1 - n2;
+        else if (opSymbol === '×') result = n1 * n2;
+        else result = n1 / n2;
+
+        const card = document.createElement('div');
+        card.className = 'math-card';
+        card.dataset.answer = result;
+        card.innerHTML = `
+          ${n1} ${opSymbol} ${n2} = 
+          <input type="number" class="interactive-only">
+          <span class="answer-box"></span>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    function checkMath() {
+      let allOk = true;
+      let anyEmpty = false;
+      document.querySelectorAll('#mathGrid .math-card').forEach(card => {
+        const input = card.querySelector('input');
+        card.classList.remove('correct', 'wrong');
+        if (input.value === '') { anyEmpty = true; allOk = false; return; }
+        if (parseInt(input.value) === parseInt(card.dataset.answer)) {
+          card.classList.add('correct');
+        } else {
+          card.classList.add('wrong');
+          allOk = false;
+        }
+      });
+      if (allOk && !anyEmpty) {
+        alert('🎉 ¡Perfecto! Todas las respuestas son correctas. Eres un campeón/a de las matemáticas.');
+      } else if (anyEmpty) {
+        alert('📝 Aún hay operaciones sin responder.');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // LÓGICA 2: SOPA DE LETRAS
+    // -------------------------------------------------------------
+    const wordBank = {
+      animales: ['PERRO', 'GATO', 'LEON', 'OSO', 'PATO', 'VACA'],
+      frutas: ['MANZANA', 'PERA', 'UVAS', 'PIÑA', 'BANANO', 'FRESA'],
+      colores: ['ROJO', 'AZUL', 'VERDE', 'AMARILLO', 'ROSA', 'NEGRO']
+    };
+
+    function generateWordSearch() {
+      const cat = document.getElementById('wsCategory').value;
+      const words = wordBank[cat];
+      const size = 10;
+      let grid = Array(size).fill(null).map(() => Array(size).fill(''));
+
+      words.forEach((word) => {
+        let placed = false;
+        let attempts = 0;
+        while (!placed && attempts < 50) {
+          attempts++;
+          let row = Math.floor(Math.random() * size);
+          let col = Math.floor(Math.random() * (size - word.length));
+          
+          let fits = true;
+          for (let i = 0; i < word.length; i++) {
+            if (grid[row][col + i] !== '' && grid[row][col + i] !== word[i]) {
+              fits = false;
+              break;
+            }
+          }
+
+          if (fits) {
+            for (let i = 0; i < word.length; i++) {
+              grid[row][col + i] = word[i];
+            }
+            placed = true;
+          }
+        }
+      });
+
+      const alphabet = 'ABCDEGHJKLMNOPQRSTUVWXYZ';
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (grid[r][c] === '') {
+            grid[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+          }
+        }
+      }
+
+      const listContainer = document.getElementById('wordList');
+      listContainer.innerHTML = '<b>Buscar:</b> ' + words.map(w => `<span class="word-item">${w}</span>`).join(' • ');
+
+      const gridContainer = document.getElementById('wsGrid');
+      gridContainer.innerHTML = '';
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'ws-cell';
+          cell.innerText = grid[r][c];
+          cell.onclick = () => cell.classList.toggle('selected');
+          gridContainer.appendChild(cell);
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // LÓGICA 3: CRUCIGRAMA
+    // -------------------------------------------------------------
+    const cwSize = 13;
+    let cwPlacements = [];
+
+    function shuffleWord(word) {
+      const arr = word.split('');
+      do {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      } while (arr.join('') === word && word.length > 1);
+      return arr.join('');
+    }
+
+    function generateCrossword() {
+      const cat = document.getElementById('cwCategory').value;
+      const words = [...wordBank[cat]].sort((a, b) => b.length - a.length);
+      const grid = Array(cwSize).fill(null).map(() => Array(cwSize).fill(null));
+      cwPlacements = [];
+
+      // Primera palabra: horizontal y centrada
+      const first = words[0];
+      const row0 = Math.floor(cwSize / 2);
+      const col0 = Math.floor((cwSize - first.length) / 2);
+      first.split('').forEach((ch, i) => { grid[row0][col0 + i] = { letter: ch }; });
+      cwPlacements.push({ word: first, row: row0, col: col0, dir: 'across', num: 0 });
+
+      // Resto de palabras: verticales, cruzando alguna letra ya colocada
+      for (let w = 1; w < words.length; w++) {
+        const word = words[w];
+        let placedOk = false;
+
+        outer:
+        for (let li = 0; li < word.length && !placedOk; li++) {
+          for (const p of cwPlacements) {
+            for (let pj = 0; pj < p.word.length; pj++) {
+              if (p.word[pj] !== word[li]) continue;
+              const ir = p.row + (p.dir === 'down' ? pj : 0);
+              const ic = p.col + (p.dir === 'across' ? pj : 0);
+              const r0 = ir - li;
+              if (r0 < 0 || r0 + word.length > cwSize) continue;
+
+              let ok = true;
+              for (let k = 0; k < word.length; k++) {
+                const rr = r0 + k, cc = ic;
+                const cell = grid[rr][cc];
+                if (cell !== null && cell.letter !== word[k]) { ok = false; break; }
+                // Celdas a los lados deben estar vacías (excepto en la intersección)
+                if (k !== li && (grid[rr][cc - 1] !== null || grid[rr][cc + 1] !== null)) { ok = false; break; }
+                // Arriba y abajo de los extremos deben estar vacías
+                if (k === 0 && grid[rr - 1] && grid[rr - 1][cc] !== null) { ok = false; break; }
+                if (k === word.length - 1 && grid[rr + 1] && grid[rr + 1][cc] !== null) { ok = false; break; }
+              }
+              if (!ok) continue;
+
+              word.split('').forEach((ch, k) => { grid[r0 + k][ic] = { letter: ch }; });
+              cwPlacements.push({ word, row: r0, col: ic, dir: 'down', num: 0 });
+              placedOk = true;
+              break outer;
+            }
+          }
+        }
+        if (!placedOk) console.warn('No se pudo colocar:', word);
+      }
+
+      // Numeración de casillas de inicio (orden: arriba-abajo, izquierda-derecha)
+      const startMap = new Map();
+      cwPlacements.forEach(p => {
+        const key = p.row + ',' + p.col;
+        if (!startMap.has(key)) startMap.set(key, []);
+        startMap.get(key).push(p);
+      });
+      const sorted = [...startMap.keys()].sort((a, b) => {
+        const [ar, ac] = a.split(',').map(Number);
+        const [br, bc] = b.split(',').map(Number);
+        return ar - br || ac - bc;
+      });
+      let n = 1;
+      sorted.forEach(key => { startMap.get(key).forEach(p => p.num = n); n++; });
+
+      // Dibujar la cuadrícula
+      const gridEl = document.getElementById('cwGrid');
+      gridEl.innerHTML = '';
+      const numAt = {};
+      cwPlacements.forEach(p => { numAt[p.row + ',' + p.col] = p.num; });
+
+      for (let r = 0; r < cwSize; r++) {
+        for (let c = 0; c < cwSize; c++) {
+          const cell = document.createElement('div');
+          if (grid[r][c] === null) {
+            cell.className = 'cw-cell block';
+          } else {
+            cell.className = 'cw-cell';
+            cell.dataset.solution = grid[r][c].letter;
+            cell.dataset.r = r;
+            cell.dataset.c = c;
+            if (numAt[r + ',' + c]) {
+              const num = document.createElement('span');
+              num.className = 'cw-num';
+              num.innerText = numAt[r + ',' + c];
+              cell.appendChild(num);
+            }
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.maxLength = 2;
+            input.setAttribute('autocomplete', 'off');
+            input.oninput = (e) => {
+              e.target.value = e.target.value.toUpperCase().replace(/[^A-ZÑ]/g, '').slice(-1);
+              cell.classList.remove('correct', 'wrong');
+              if (e.target.value) {
+                const next = gridEl.querySelector(`.cw-cell[data-r="${r}"][data-c="${c + 1}"] input`);
+                if (next) next.focus();
+              }
+            };
+            cell.appendChild(input);
+          }
+          gridEl.appendChild(cell);
+        }
+      }
+
+      // Pistas en anagrama
+      const across = cwPlacements.filter(p => p.dir === 'across');
+      const down = cwPlacements.filter(p => p.dir === 'down');
+      document.getElementById('cwAcross').innerHTML =
+        across.map(p => `<li value="${p.num}">${shuffleWord(p.word)}</li>`).join('');
+      document.getElementById('cwDown').innerHTML =
+        down.map(p => `<li value="${p.num}">${shuffleWord(p.word)}</li>`).join('');
+    }
+
+    function checkCrossword() {
+      let allOk = true;
+      let anyEmpty = false;
+      document.querySelectorAll('#cwGrid .cw-cell:not(.block)').forEach(cell => {
+        const input = cell.querySelector('input');
+        const val = input.value.toUpperCase();
+        cell.classList.remove('correct', 'wrong');
+        if (val === '') { anyEmpty = true; allOk = false; return; }
+        if (val === cell.dataset.solution) {
+          cell.classList.add('correct');
+        } else {
+          cell.classList.add('wrong');
+          allOk = false;
+        }
+      });
+      if (allOk && !anyEmpty) {
+        alert('🎉 ¡Excelente! Completaste todo el crucigrama correctamente.');
+      } else if (anyEmpty) {
+        alert('📝 Aún quedan casillas vacías por completar.');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // LÓGICA 4: PIZARRA Y COLOREAR
+    // -------------------------------------------------------------
+    let canvas, ctx, drawing = false, currentColor = '#000000';
+
+    function initCanvas() {
+      canvas = document.getElementById('drawCanvas');
+      ctx = canvas.getContext('2d');
+      
+      canvas.onmousedown = startDraw;
+      canvas.onmouseup = stopDraw;
+      canvas.onmousemove = draw;
+
+      canvas.addEventListener('touchstart', (e) => { startDraw(e.touches[0]); e.preventDefault(); });
+      canvas.addEventListener('touchend', stopDraw);
+      canvas.addEventListener('touchmove', (e) => { draw(e.touches[0]); e.preventDefault(); });
+    }
+
+    function startDraw(e) {
+      drawing = true;
+      ctx.beginPath();
+      const rect = canvas.getBoundingClientRect();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    }
+
+    function stopDraw() { drawing = false; }
+
+    function draw(e) {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = currentColor;
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+    }
+
+    function setColor(color, element) {
+      currentColor = color;
+      document.querySelectorAll('.color-dot').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      loadTemplate();
+    }
+
+    function loadTemplate() {
+      const type = document.getElementById('templateSelect').value;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.strokeStyle = '#333333';
+      ctx.lineWidth = 3;
+
+      if (type === 'house') {
+        ctx.strokeRect(200, 200, 200, 150);
+        ctx.beginPath();
+        ctx.moveTo(180, 200); ctx.lineTo(300, 100); ctx.lineTo(420, 200); ctx.closePath(); ctx.stroke();
+        ctx.strokeRect(270, 270, 60, 80);
+        ctx.strokeRect(230, 230, 40, 40);
+        ctx.strokeRect(330, 230, 40, 40);
+      } else if (type === 'sun') {
+        ctx.beginPath(); ctx.arc(120, 100, 50, 0, Math.PI * 2); ctx.stroke();
+        for(let i=0; i<8; i++) {
+          let angle = (i * Math.PI) / 4;
+          ctx.beginPath();
+          ctx.moveTo(120 + Math.cos(angle)*60, 100 + Math.sin(angle)*60);
+          ctx.lineTo(120 + Math.cos(angle)*80, 100 + Math.sin(angle)*80);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // LÓGICA 4: GENERADOR DE CUENTOS
+    // -------------------------------------------------------------
+    function generateStory() {
+      const hero = document.getElementById('storyHero').value;
+      const place = document.getElementById('storyPlace').value;
+      const power = document.getElementById('storyPower').value;
+
+      const titles = [
+        "La Gran Aventura Mágica",
+        "El Misterio Increíble",
+        "Un Día Lleno de Sorpresas",
+        "El Gran Viaje Extraordinario"
+      ];
+
+      const chosenTitle = titles[Math.floor(Math.random() * titles.length)];
+
+      const storyHTML = `
+        <h3 class="story-title">📖 ${chosenTitle}</h3>
+        <p>Había una vez, en un lugar lejano, <b>${hero}</b> que vivía muy feliz en <b>${place}</b>. A todos en el lugar les encantaba compartir momentos juntos porque siempre había sonrisas y diversión.</p>
+        <p>Un buen día, ocurrió algo inesperado: un pequeño problema interrumpió la tranquilidad de todos. Pero nuestro protagonista tenía un secreto fabuloso: ¡podía <b>${power}</b>!</p>
+        <p>Usando su gran habilidad con mucha responsabilidad y ayuda de sus amigos, logró resolver la situación. Todos celebraron con alegría y aprendieron que, trabajando juntos y confiando en nosotros mismos, ¡podemos superar cualquier desafío!</p>
+        <p style="text-align: center; font-weight: bold; color: #D97706; margin-top: 20px;">Y colorín colorado, este cuento se ha terminado. ✨</p>
+      `;
+
+      document.getElementById('storyOutput').innerHTML = storyHTML;
+    }
+
+    // INICIALIZACIÓN AUTOMÁTICA
+    window.onload = () => {
+      generateMath();
+      generateWordSearch();
+      generateCrossword();
+      initCanvas();
+    };
+
+    // REGISTRO DEL SERVICE WORKER (PWA - funciona sin internet)
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(() => console.log('✅ Service Worker registrado'))
+          .catch((err) => console.log('Error al registrar SW:', err));
+      });
+    }
+  </script>
+</body>
+</html>
